@@ -12,10 +12,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import modelo.User;
 import modelo.Character;
 import modelo.Inventory;
 import modelo.Item;
+import modelo.RankingUsuarioAmigosTO;
+import modelo.RankingUsuarioTO;
 
 /**
  *
@@ -102,6 +106,8 @@ public class CrossingDAO {
         return u;
     }
     
+    
+    
      public void ModificarPerfilUsuario(User u) throws SQLException, ExcepcionCrossing{
         if (!ExistUser(u)){
             throw new ExcepcionCrossing("ERROR: No existe el usuario");
@@ -129,6 +135,49 @@ public class CrossingDAO {
         ps.executeUpdate();
         ps.close();
     }
+     
+     public boolean Login(String usuario, String password) throws SQLException {
+        boolean bnd = true;
+        String select = "select * from user where username='" + usuario + "' and password='" + password + "'";
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery(select);
+        if(rs.next()) {
+			rs.close();
+			st.close();
+			return true;		
+		}
+        st.close();
+        return bnd;
+    }
+     
+     public List<RankingUsuarioTO> rankingMejoresUsuarios() throws SQLException {
+        String query = "select username, level from user group by username order by level desc limit 10;";
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        List<RankingUsuarioTO> ranking = new ArrayList<>();
+        while (rs.next()) {
+            RankingUsuarioTO r = new RankingUsuarioTO(rs.getString("username"), rs.getInt("level"));
+            ranking.add(r);
+        }
+        rs.close();
+        st.close();
+        return ranking;
+    }
+     
+//     public List<RankingUsuarioAmigosTO> rankingMejoresUsuariosAmigos() throws SQLException {
+//        String query = "select user, count(*) as nAmigos from contact  group by user order by nAmigos desc;";
+//        Statement st = conexion.createStatement();
+//        ResultSet rs = st.executeQuery(query);
+//        List<RankingUsuarioTO> rk = new ArrayList<>();
+//        while (rs.next()) {
+//            RankingUsuarioTO r = new RankingUsuarioTO(rs.getString("user"), rs.getInt("nAmigos"));
+//            rk.add(r);
+//        }
+//        rs.close();
+//        st.close();
+//        return rk;
+// 
+//    }
     
     
     // --------------------- PERSONAJE ------------------------
@@ -196,7 +245,23 @@ public class CrossingDAO {
         st.close();
         return c;
     }
+     
+     public List<Character> SelectPersonajeEnLugarUser (User u) throws SQLException{
+         List<Character> listadochar = new ArrayList<Character>();
+         String select="select * from stucomcrossing.character where place='" +u.getPlace()+"';";
+         Statement st = conexion.createStatement();
+         ResultSet rs = st.executeQuery(select);
+         while (rs.next()){
+             listadochar.add(new Character(
+                     rs.getString("name")
+             ));
+         }
+         rs.close();
+         st.close();
+         return listadochar;
+     }
     
+     
     // --------------------- ITEM ------------------------
     
     public void InsertItem(Item i) throws SQLException, ExcepcionCrossing{
@@ -268,6 +333,25 @@ public class CrossingDAO {
         return i;
     }
     
+    public List<Item> selectAllItems() throws SQLException {
+        String query = "select * from item";
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        List<Item> items = new ArrayList<>();
+        while (rs.next()) {
+            Item i = new Item();
+            i.setName(rs.getString("name"));
+            i.setPrice(rs.getDouble("study"));
+            i.setSaleprice(rs.getDouble("place"));
+            i.setType(rs.getString("preference"));
+            i.setStyle(rs.getString("style"));
+            items.add(i);
+        }
+        rs.close();
+        st.close();
+        return items;
+    }
+    
     // --------------------- INVENTORIO ------------------------
 
     public Inventory getInventoryByUser(String username) throws SQLException, ExcepcionCrossing {
@@ -287,6 +371,8 @@ public class CrossingDAO {
         st.close();
         return i;
     }
+
+    
     
     
 

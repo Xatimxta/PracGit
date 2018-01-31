@@ -8,10 +8,13 @@ package stucomcrossing;
 import dao.CrossingDAO;
 import excepciones.ExcepcionCrossing;
 import java.sql.SQLException;
+import java.util.List;
 import modelo.User;
 import modelo.Character;
 import modelo.Inventory;
 import modelo.Item;
+import modelo.RankingUsuarioAmigosTO;
+import modelo.RankingUsuarioTO;
 
 
 /**
@@ -49,6 +52,8 @@ public class StucomCrossing {
             System.out.println("Registrando Item " + i1.getName());
             RegisterOfItem(crossingDAO, i1);
             System.out.println("************************************************************");
+            System.out.println("Validando el login del usuario " + u1.getUsername());
+            System.out.println("************************************************************");
             System.out.println("Modificar el perfil del usuario (level) " + u1.getUsername());
             u1.setLevel(5);
             ModificarUsuario(crossingDAO, u1);
@@ -64,8 +69,8 @@ public class StucomCrossing {
             System.out.println("Modificar el precio del item " + i1.getName());
             i1.setPrice(30);
             ModificarPrecioItem(crossingDAO, i1);
-//            System.out.println("************************************************************");
-//            System.out.println("Obtener los personajes que estan en el mismo lugar que " + u1.getUsername());
+            System.out.println("************************************************************");
+            System.out.println("Obtener los personajes que estan en el mismo lugar que " + u1.getUsername());
 //            System.out.println("************************************************************");
 //            System.out.println("Comprando un objeto el usuario " + u1.getUsername());
 //            System.out.println("************************************************************");
@@ -77,10 +82,25 @@ public class StucomCrossing {
 //            System.out.println("Obteniendo la lista de amigos del usuario " + u1.getUsername());
 //            System.out.println("************************************************************");
 //            System.out.println("Listando los objetos que no tiene el usuario" + u1.getUsername());
-//            System.out.println("************************************************************");
-//            System.out.println("Obteniendo el ranking de los 10 mejores usuarios");
+//            List<Item> items;
+//            items = crossingDAO.selectAllItems();
+//            System.out.println("Listado de objetos que no tiene");
+//            for (Item x : items){
+//                System.out.println(x);
+//            }
+            System.out.println("************************************************************");
+            System.out.println("Obteniendo el ranking de los 10 mejores usuarios");
+            List<RankingUsuarioTO> ranking = crossingDAO.rankingMejoresUsuarios();
+            for (RankingUsuarioTO r : ranking){
+                System.out.println(r);
+            }
 //            System.out.println("************************************************************");
 //            System.out.println("Obteniendo el ranking de los usuarios con mas amigos");
+//            List<RankingUsuarioAmigosTO> rk = crossingDAO.rankingMejoresUsuariosAmigos();
+//            for (RankingUsuarioAmigosTO r : rk){
+//                System.out.println(r);
+//            }
+            
 //            System.out.println("************************************************************");
 //            System.out.println("Obteniendo el listado de personajes que desconoce el usuario" + u1.getUsername());
             
@@ -123,6 +143,10 @@ public class StucomCrossing {
             System.out.println(ex.getMessage());
         } 
     }
+    
+    private static void Loginuser(User u, String pass)throws SQLException{
+        
+    }
  
     
     
@@ -151,7 +175,8 @@ public class StucomCrossing {
             
         }catch(ExcepcionCrossing ex){
             System.out.println(ex.getMessage());
-        } 
+        }
+         
     }
     
     
@@ -178,6 +203,8 @@ public class StucomCrossing {
             System.out.println(ex.getMessage());
         } 
     }
+
+    
     
     // --------------------- ITEM ------------------------
     private static void RegisterOfItem(CrossingDAO crossingDAO,Item i) throws SQLException{
