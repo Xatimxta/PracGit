@@ -29,6 +29,7 @@ public class StucomCrossing {
     public static void main(String[] args) {
         
         CrossingDAO crossingDAO = new CrossingDAO();
+        CrossingDAO crossingDAO = new CrossingDAO();
         
         // TEst
         
