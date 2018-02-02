@@ -14,6 +14,7 @@ public class RankingUsuarioAmigosTO {
     private int nAmigos;
 
     public RankingUsuarioAmigosTO(String username, int nAmigos) {
+        super();
         this.username = username;
         this.nAmigos = nAmigos;
     }

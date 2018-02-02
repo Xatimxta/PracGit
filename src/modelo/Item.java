@@ -20,7 +20,7 @@ public class Item {
     public Item(String name, double price, double saleprice, String type, String style) {
         this.name = name;
         this.price = price;
-        this.saleprice = saleprice;
+        this.saleprice = price / 2;
         this.type = type;
         this.style = style;
     }

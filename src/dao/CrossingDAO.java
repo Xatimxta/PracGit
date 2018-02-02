@@ -164,20 +164,20 @@ public class CrossingDAO {
         return ranking;
     }
      
-//     public List<RankingUsuarioAmigosTO> rankingMejoresUsuariosAmigos() throws SQLException {
-//        String query = "select user, count(*) as nAmigos from contact  group by user order by nAmigos desc;";
-//        Statement st = conexion.createStatement();
-//        ResultSet rs = st.executeQuery(query);
-//        List<RankingUsuarioTO> rk = new ArrayList<>();
-//        while (rs.next()) {
-//            RankingUsuarioTO r = new RankingUsuarioTO(rs.getString("user"), rs.getInt("nAmigos"));
-//            rk.add(r);
-//        }
-//        rs.close();
-//        st.close();
-//        return rk;
-// 
-//    }
+     public List<RankingUsuarioAmigosTO> rankingMejoresUsuariosAmigos() throws SQLException {
+        String query = "select user, count(*) as nAmigos from contact  group by user order by nAmigos desc;";
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        List<RankingUsuarioAmigosTO> rk = new ArrayList<>();
+        while (rs.next()) {
+            RankingUsuarioAmigosTO r = new RankingUsuarioAmigosTO(rs.getString("user"), rs.getInt("nAmigos"));
+            rk.add(r);
+        }
+        rs.close();
+        st.close();
+        return rk;
+ 
+    }
     
     
     // --------------------- PERSONAJE ------------------------
@@ -308,9 +308,27 @@ public class CrossingDAO {
         ps.executeUpdate();
         ps.close();
     }
-    
-  
-    
+//         public Character getCharacterByName(String name) throws SQLException, ExcepcionCrossing {
+//        Character aux = new Character(name);
+//        if (!ExistCharacter(aux)){
+//            throw new ExcepcionCrossing("ERROR No existe ningún usuario con este Username");
+//            
+//        }
+//        String select ="select * from stucomcrossing.character where name='" + name + "'";
+//        Statement st = conexion.createStatement();
+//        ResultSet rs = st.executeQuery(select);
+//        Character c = new Character();
+//        if (rs.next()){
+//            c.setName(rs.getString("name"));
+//            c.setStudy(rs.getString("study"));
+//            c.setPlace(rs.getString("place"));
+//            c.setPreference(rs.getString("preference"));
+//        }
+//        rs.close();
+//        st.close();
+//        return c;
+//    }
+
     public Item getItemByName(String name) throws SQLException, ExcepcionCrossing {
         Item aux = new Item(name);
         if (!ExistItem(aux)){
@@ -323,9 +341,9 @@ public class CrossingDAO {
         Item i = new Item();
         if (rs.next()){
             i.setName(rs.getString("name"));
-            i.setPrice(rs.getDouble("study"));
-            i.setSaleprice(rs.getDouble("place"));
-            i.setType(rs.getString("preference"));
+            i.setPrice(rs.getDouble("price"));
+            i.setSaleprice(rs.getDouble("saleprice"));
+            i.setType(rs.getString("type"));
             i.setStyle(rs.getString("style"));
         }
         rs.close();
@@ -334,6 +352,13 @@ public class CrossingDAO {
     }
     
     public List<Item> selectAllItems() throws SQLException {
+        
+        // Pendiente hacer la consulta
+        
+        // -> posible consulta
+        // select * from item left join de inventario en name= el inventario donde inventario es nulo
+        
+        
         String query = "select * from item";
         Statement st = conexion.createStatement();
         ResultSet rs = st.executeQuery(query);

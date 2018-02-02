@@ -5,6 +5,7 @@
  */
 package stucomcrossing;
 
+
 import dao.CrossingDAO;
 import excepciones.ExcepcionCrossing;
 import java.sql.SQLException;
@@ -34,6 +35,15 @@ public class StucomCrossing {
         // TEst
         
         User u1 = new User("Xatimxta","123456789","Yzymafia");
+        User u2 = new User("user2","123456789","place2");
+        User u3 = new User("user3","123456789","place3");
+        User u4 = new User("user4","123456789","place4");
+        User u5 = new User("user5","123456789","place5");
+        User u6 = new User("user6","123456789","place6");
+        User u7 = new User("user7","123456789","place7");
+        User u8 = new User("user8","123456789","place8");
+        User u9 = new User("user9","123456789","place9");
+        User u10 = new User("user10","123456789","place10");
         Character c1 = new Character("Hypebeast","Estudiodecalle","London","Ropalimited");
         Item i1 = new Item("PackPlox", 50, 25.5, "Oshe", "Hype");
         
@@ -72,6 +82,10 @@ public class StucomCrossing {
             ModificarPrecioItem(crossingDAO, i1);
             System.out.println("************************************************************");
             System.out.println("Obtener los personajes que estan en el mismo lugar que " + u1.getUsername());
+            List<Character> sameplace = crossingDAO.SelectPersonajeEnLugarUser(u1);
+            for (Character g : sameplace){
+                System.out.println(g);
+            }
 //            System.out.println("************************************************************");
 //            System.out.println("Comprando un objeto el usuario " + u1.getUsername());
 //            System.out.println("************************************************************");
@@ -95,13 +109,13 @@ public class StucomCrossing {
             for (RankingUsuarioTO r : ranking){
                 System.out.println(r);
             }
-//            System.out.println("************************************************************");
-//            System.out.println("Obteniendo el ranking de los usuarios con mas amigos");
-//            List<RankingUsuarioAmigosTO> rk = crossingDAO.rankingMejoresUsuariosAmigos();
-//            for (RankingUsuarioAmigosTO r : rk){
-//                System.out.println(r);
-//            }
-            
+            System.out.println("************************************************************");
+            System.out.println("Obteniendo el ranking de los usuarios con mas amigos");
+            List<RankingUsuarioAmigosTO> rk = crossingDAO.rankingMejoresUsuariosAmigos();
+            for (RankingUsuarioAmigosTO r : rk){
+                System.out.println(r);
+            }
+//            
 //            System.out.println("************************************************************");
 //            System.out.println("Obteniendo el listado de personajes que desconoce el usuario" + u1.getUsername());
             
@@ -230,6 +244,15 @@ public class StucomCrossing {
             System.out.println(ex.getMessage());
         } 
     }
+    
+//    private static void ComprarItem(CrossingDAO crossingDAO){
+//        try{
+//            
+//            
+//        }catch(ExcepcionCrossing ex){
+//            System.out.println(ex.getMessage());
+//        } 
+//    }
 
      // --------------------- INVENTORY ------------------------
     
